@@ -1,0 +1,102 @@
+---
+title: "ue5"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# get the packages
+```{r}
+if(!require(install.load)){
+  install.packages("install.load")
+}
+library(install.load)
+```
+
+```{r}
+install_load("tidyverse")
+```
+
+
+# Load the datasets
+```{r}
+movies <- read_csv("movies.csv")
+ratings <- read_csv("ratings.csv")
+```
+
+# Tasks for Today
+
+
+## transform
+First we get the average rating for each movie
+```{r}
+glimpse(movies)
+head(movies)
+glimpse(ratings)
+```
+
+```{r}
+ratings["Count"] <- 1
+mean_ratings <- ratings %>% group_by(movieId) %>% 
+  summarise(Mean = mean(rating), "Number of Ratings" = sum(Count))
+
+mean_ratings
+```
+
+
+
+
+
+## Join
+
+Let's try out some join functions and see how they work on our two datasets
+```{r}
+movies_ratings_left <- left_join(movies, mean_ratings, by = "movieId")
+movies_ratings_right <- right_join(movies, mean_ratings)
+movies_ratings_inner <- inner_join(movies, mean_ratings)
+movies_ratings_full <- full_join(movies, mean_ratings)
+movies_ratings_anti <- anti_join(movies, mean_ratings)
+
+
+# Which join is the most suitable for our usecase? Raise your hands!
+```
+```{r}
+is.na(movies_ratings_full)
+movies_ratings_right[is.na(movies_ratings_right), ]
+```
+
+## Analytics of our data
+
+Which of the movies from High School Musical or Camp Rock has the best ratings?
+```{r}
+best_of_all_time <- movies_ratings_inner %>% 
+  filter(substr(title, 1, 8) == "High Sch" | substr(title, 1, 8) == "Camp Roc") %>% 
+  arrange(desc(Mean))
+
+best_of_all_time
+
+```
+
+Let's get a selection of the best rated movies. We apply a filter to all movies that hit more than 100 ratings
+```{r}
+best_movies <- movies_ratiings_inner %>% 
+  filter('Number of Ratings' > 100) %>% 
+  arrange(desc(Mean))
+head(best_movies)
+```
+
+
+Finally, we want to explore some bind functions
+```{r}
+c <- bind_rows(movies_ratings_left, movies_ratings_right)
+c
+```
+
+```{r}
+df <- tibble(num1 = 1:5, var1 = letters[1:5])
+df <- tibble(vars)
+```
+
+
