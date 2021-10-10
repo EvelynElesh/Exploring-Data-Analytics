@@ -11,3 +11,5 @@
  #### 2) Exploring the Kaggle Data Science Survey (August 2021)
 
  ##### This dataset shows that there are many programming languages and tools that can be used to complete a given task and we are going to find out what tools and languages professionals use in their day-to-day work.
+ 
+ #### 3) Exploring the Titanic dataset and using Machine learning models to predict who survived and who drowned and then seeing how different models work.
